@@ -30,16 +30,21 @@
 #define B_CYAN 46
 #define B_WHITE 47
 
+/* 글자 색 바꾸기 */
 void setColor(int fore_color, int backg_color)
 {
     printf("%c[%d;%dm", 0x1b, fore_color, backg_color);
 }
 
+/* 글자 위치 바꾸기 */
 void gotoxy(int x, int y)
 {
     printf("%c[%d;%df", 0x1b, y, x);
 }
 
+/*
+////
+*/
 int main(void)
 {
     system("clear");
@@ -54,19 +59,19 @@ int main(void)
 
     setColor(RESET, RESET);
     
-    gotoxy(20, 19);
+    gotoxy(20, 19);  // 위쪽 벽
     printf("==========================================\n");
 
     for(int i = 0 + 20 ; i < 20 + 20 ; i++)
     {
-        gotoxy(20, i);
+        gotoxy(20, i);  // 왼쪽 벽
         printf("||\n");
 
-        gotoxy(60, i);
+        gotoxy(60, i);  // 오른쪽 벽
         printf("||\n");
     }
 
-    gotoxy(20, 40);
+    gotoxy(20, 40);  // 아래쪽 벽
     printf("==========================================\n");
 
     return 0;
