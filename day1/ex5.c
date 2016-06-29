@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 /* 글자 속성 */
 #define RESET 0
@@ -30,6 +31,80 @@
 #define B_CYAN 46
 #define B_WHITE 47
 
+
+/* 글자 색 바꾸기 */
+void setColor(int fore_color, int backg_color);
+
+/* 글자 위치 바꾸기 */
+void gotoxy(int x, int y);
+
+/*
+////
+*/
+int main(void)
+{
+    /**/
+    int nRand_Fore = 0;
+    int nRand_Back = 0;
+
+    srand((int)time(NULL));
+
+    /**/
+    system("clear");
+
+    /**/
+    setColor(RED, B_BLUE);
+    gotoxy(40, 35);
+    printf("Hello");
+
+    setColor(RED, B_YELLOW);
+    gotoxy(40, 38);
+    printf("World");
+
+    /**/
+    setColor(RESET, RESET);
+    
+    /**/
+    gotoxy(20, 19);  // 위쪽 벽
+    for(int i = 0 ; i < 42 ; i++)
+    {
+        nRand_Fore = rand() % 7 + 30;
+        nRand_Back = rand() % 7 + 40;
+        setColor(nRand_Fore, nRand_Back);
+        printf("=");
+        setColor(RESET, RESET);
+    }
+
+    for(int i = 0 + 20 ; i < 20 + 20 ; i++)
+    {
+        nRand_Fore = rand() % 7 + 30;
+        nRand_Back = rand() % 7 + 40;
+        setColor(nRand_Fore, nRand_Back);
+
+        gotoxy(20, i);  // 왼쪽 벽
+        printf("||");
+
+        gotoxy(60, i);  // 오른쪽 벽
+        printf("||\n");
+
+        setColor(RESET, RESET);  
+    }
+
+    gotoxy(20, 40);  // 아래쪽 벽
+    for(int i = 0 ; i < 42 ; i++)
+    {
+        nRand_Fore = rand() % 7 + 30;
+        nRand_Back = rand() % 7 + 40;
+        setColor(nRand_Fore, nRand_Back);
+        printf("=");
+    }
+
+    /**/
+    setColor(RESET, RESET);    
+
+    return 0;
+}
+
 /* 글자 색 바꾸기 */
 void setColor(int fore_color, int backg_color)
 {
@@ -40,39 +115,4 @@ void setColor(int fore_color, int backg_color)
 void gotoxy(int x, int y)
 {
     printf("%c[%d;%df", 0x1b, y, x);
-}
-
-/*
-////
-*/
-int main(void)
-{
-    system("clear");
-
-    setColor(RED, B_BLUE);
-    gotoxy(30, 35);
-    printf("Hello");
-
-    setColor(RED, B_YELLOW);
-    gotoxy(30, 38);
-    printf("World");
-
-    setColor(RESET, RESET);
-    
-    gotoxy(20, 19);  // 위쪽 벽
-    printf("==========================================\n");
-
-    for(int i = 0 + 20 ; i < 20 + 20 ; i++)
-    {
-        gotoxy(20, i);  // 왼쪽 벽
-        printf("||\n");
-
-        gotoxy(60, i);  // 오른쪽 벽
-        printf("||\n");
-    }
-
-    gotoxy(20, 40);  // 아래쪽 벽
-    printf("==========================================\n");
-
-    return 0;
 }
