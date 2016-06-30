@@ -21,7 +21,6 @@ int main(void)
     while(bLoop)
     {
         system("clear");
-        usleep(100000);
 
         if(kbhit() != 0)
         {
@@ -50,7 +49,7 @@ int main(void)
         // 플레이어 
         drawMyCar(nXpos, nYpos);
         
-        
+        usleep(100000);
         
     }
    
@@ -90,4 +89,4 @@ if(orc_xPos > nXpos)
 
         // 오크 
         drawMyBox(orc_xPos, orc_yPos, 3, 3, BLUE, B_BLUE);
-        */
+*/
