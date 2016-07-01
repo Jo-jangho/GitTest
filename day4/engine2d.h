@@ -106,8 +106,13 @@ void map_printCell(int rawData)
         case 3:             //플레이어
             printf(" A ");
             break;
+        case 4:             //잠긴문
+            printf(" ☆ ");
+            break;
+        case 5:             //열쇠
+            printf(" § ");
         default :
-            printf("   ");
+        printf("");
             break;
     }
 }
