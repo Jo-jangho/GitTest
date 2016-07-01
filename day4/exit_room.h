@@ -11,14 +11,25 @@
  */
 
 int world_map[] = {
-	1,4,1,1,1,1,1,1,
-	1,0,0,1,0,0,0,1,
-	1,0,0,0,0,1,0,1,
-	1,1,1,1,1,1,0,1,
-	1,0,0,0,0,0,0,1,
-	1,1,1,0,1,1,1,1,
-	1,0,0,0,0,0,5,1,
-	1,0,1,1,1,1,1,1
+	1, 4, 1, 1, 1, 1, 1, 1,
+	1, 0, 1, 1, 0, 0, 0, 1,
+	1, 0, 0, 0, 0, 1, 0, 1,
+	1, 1, 1, 1, 1, 1, 0, 1,
+	1, 0, 0, 0, 0, 0, 0, 1,
+	1, 1, 1, 0, 1, 1, 1, 1,
+	1, 0, 0, 0, 0, 0, 5, 1,
+	1, 0, 1, 1, 1, 1, 1, 1
+};
+
+int world_mapTwo[] = {
+	1, 0, 1, 1, 1, 1, 1, 1,
+	1, 0, 1, 5, 1, 1, 1, 1,
+	1, 0, 1, 0, 0, 0, 1, 1,
+	1, 0, 1, 1, 1, 0, 1, 1,
+	1, 0, 1, 0, 0, 0, 0, 1,
+	1, 0, 0, 0, 1, 1, 0, 1,
+	1, 0, 1, 0, 0, 1, 0, 1,
+	1, 1, 1, 1, 1, 1, 4, 1
 };
 
 int buffer_map[64];
@@ -35,6 +46,7 @@ int nFSM = 0;
 
 int player_xpos;
 int player_ypos;
+int player_stage;
 int player_inven; //0없음, 1:키보유 
 
 void colliedBox(int old_xpos, int old_ypos)
@@ -48,15 +60,16 @@ void colliedBox(int old_xpos, int old_ypos)
         player_xpos = old_xpos;
         break;
     case 2: //문 
-        if(player_inven == 1) 
+        if(player_stage == 1) 
+        {
+            player_stage = 2;
+            player_inven = 0;
+        }
+        else if(player_stage == 2)
         {
             printf("미션클리어 \r\n");
             nFSM = 2;
-        }
-        else 
-        {
-            player_ypos = old_ypos;
-            player_xpos = old_xpos;
+            Sleep(1000);
         }
         break;
     case 4:
@@ -97,6 +110,34 @@ void move_player(char cmd)
 	buffer_map[ player_xpos + player_ypos*8 ] = 3;
     map_drawAll(buffer_map);
 
+}
+
+void setStage(int player_stage)
+{
+    if(player_stage == 1)
+    {
+        for(int i = 0 ; i < 64 ; i++) 
+        {
+			buffer_map[i] = world_map[i];
+            if(player_inven == 1)
+            {
+                buffer_map[54] = 0;
+                buffer_map[1] = 2;
+            }
+		}
+    }
+    else if(player_stage == 2)
+    {
+        for(int i = 0 ; i < 64 ; i++) 
+        {
+			buffer_map[i] = world_mapTwo[i];
+            if(player_inven == 1)
+            {
+                buffer_map[11] = 0;
+                buffer_map[62] = 2;
+            }
+		}
+    }
 }
 
 #endif

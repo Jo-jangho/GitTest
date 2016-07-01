@@ -2,10 +2,8 @@
 #define __ENGINE_2D__
 
 #include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
-#include <sys/select.h>
-#include <termios.h>
+//#include <string.h>
+#include <Windows.h>
 #include <stdio.h>
 
 /* 글자 속성 */
@@ -95,24 +93,38 @@ void map_printCell(int rawData)
     switch(rawData)
     {
         case 0:             //길
+            setColor(RED, B_GREEN);
             printf(" □ ");
+            setColor(RESET, RESET);
             break;
         case 1:             //벽
+            setColor(WHITE, B_BLACK);
             printf(" ■ ");
+            setColor(RESET, RESET);
             break;
         case 2:             //출구
+            setColor(RED, B_BLUE);
             printf(" ★ ");
+            setColor(RESET, RESET);
             break;
         case 3:             //플레이어
+            setColor(RED, B_BLACK);
             printf(" A ");
+            setColor(RESET, RESET);
             break;
         case 4:             //잠긴문
+            setColor(RED, B_YELLOW);
             printf(" ☆ ");
+            setColor(RESET, RESET);
             break;
         case 5:             //열쇠
+            setColor(GREEN, B_MAGENTA);
             printf(" § ");
+            setColor(RESET, RESET);
+            break;
         default :
-        printf("");
+            printf("   ");
+            setColor(RESET, RESET);
             break;
     }
 }
@@ -129,29 +141,7 @@ void map_drawAll(int *pMap)
         puts("");
     }
 }
-
-
-struct termios orig_termios;
-
-void reset_terminal_mode()
-{
-	tcsetattr(0, TCSANOW, &orig_termios);
-}
-
-void set_conio_terminal_mode()
-{
-	struct termios new_termios;
-
-	/* take two copies - one for now, one for later */
-	tcgetattr(0, &orig_termios);
-	memcpy(&new_termios, &orig_termios, sizeof(new_termios));
-
-	/* register cleanup handler, and set the new terminal mode */
-	atexit(reset_terminal_mode);
-	cfmakeraw(&new_termios);
-	tcsetattr(0, TCSANOW, &new_termios);
-}
-
+/*
 int kbhit()
 {
 	struct timeval tv = { 0L, 0L };
@@ -170,6 +160,6 @@ int getch()
 	} else {
 		return c;
 	}
-}
+}*/
 
 #endif

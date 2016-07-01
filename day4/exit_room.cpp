@@ -23,14 +23,10 @@ int main(void)
 		}
 
 		//버퍼초기화
-		for(int i = 0 ; i < 64 ; i++) 
-        {
-			buffer_map[i] = world_map[i];
+		setStage(player_stage);
 
-		}
-
-		scanf("%c",&cmd);
-        system("clear");
+		scanf("%c", &cmd);
+        system("cls");
 
 		if(nFSM == 0) 
         {
@@ -40,6 +36,7 @@ int main(void)
                 nFSM = 1;
                 player_ypos = 7;
                 player_xpos = 1;
+                player_stage = 1;
                 player_inven = 0;
                 printf("게임을 시작합니다.");
                 break;
