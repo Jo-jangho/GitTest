@@ -26,7 +26,7 @@ int main(void)
 		setStage(player_stage);
 
 		scanf("%c", &cmd);
-        system("cls");
+        system("clear");
 
 		if(nFSM == 0) 
         {
