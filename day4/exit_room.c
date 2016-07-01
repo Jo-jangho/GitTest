@@ -3,66 +3,70 @@
 
 int main(void)
 {
-    char cmd;
+	char cmd;
+	int bLoop = 1;
 
-    /**/
-    while(bLoop)
+	while(bLoop) 
     {
-        switch(nFSM)
+		switch(nFSM) 
         {
         case 0:
-            printf("명령을 선택하세요\np(시작), q(종료))\n");
+            printf("%s의 세계에 오신걸 환영합니다. V. %d \n ", game_name, game_version );
+            printf("select => [p,q] \n");
             break;
         case 1:
-            printf("명령을 선택하세요\n (w(위), a(좌), s(아래), d(우), q(종료))\n");
+            printf("명령을 선택하세요,\nw(up), a(left), d(right), s(down), m(show map), q(exit)\n");
             break;
         case 2:
             break;
-        }
-        
-        scanf("%c", &cmd);
+
+		}
+
+		//버퍼초기화
+		for(int i = 0 ; i < 64 ; i++) 
+        {
+			buffer_map[i] = world_map[i];
+
+		}
+
+		scanf("%c",&cmd);
         system("clear");
 
-        if(nFSM == 0)
+		if(nFSM == 0) 
         {
-            switch(cmd)
+			switch(cmd) 
             {
-            case 'p':
+            case 'p': //게임스타트
                 nFSM = 1;
-                player_xPos = 1;
-                player_yPos = 7;
+                player_ypos = 7;
+                player_xpos = 1;
+                player_inven = 0;
                 printf("게임을 시작합니다.");
                 break;
             case 'q':
                 bLoop = 0;
-                nFSM = 2;
+                printf("bye \r\n");
                 break;
-            }
-        }
-        else if(nFSM == 1)
-        {
-            world_mapA[player_xPos + (player_yPos * 8)] = 3;
-            map_drawAll(world_mapA);
 
-            move_player(cmd);
-            
-            switch(cmd)
+			}
+		}
+		else if(nFSM == 1 ) //게임플레이 중일때..
+        { 
+			move_player(cmd);
+			switch(cmd) 
             {
-                case 'q':
-                    bLoop = 0;
-                    nFSM = 2;
-                    break;
-            }
-            
-            if(collision == -1)
-            {
-                nFSM = 0;
-            }
-        }
-        else if(nFSM == 2)
+            case 'q':
+                bLoop = 0;
+                printf("bye bye~\r\n"); 
+                break;
+
+			}
+		}
+		else if(nFSM == 2) 
         {
-            nFSM = 0;
-        }   
-    }
-    return 0;
+			nFSM = 0;
+
+		}
+	}
+	return 0;
 }
