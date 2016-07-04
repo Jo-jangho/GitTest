@@ -1,17 +1,11 @@
 #include "engine2d.h"
 
-char screen_buffer[8*8];
+char screen_buffer[64] = {0,};
 
 int car_posx,car_posy;
 
 int main()
 {
-	//버퍼초기화 
-	for(int i = 0 ; i < 64 ; i++) 
-    {
-		screen_buffer[i] = 0;
-	}
-
 	struct timespec work_timer;
 	set_conio_terminal_mode();
 	
