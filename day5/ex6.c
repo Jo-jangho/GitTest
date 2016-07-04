@@ -31,10 +31,10 @@ int main(void)
             case 'f':
                 for(int i = 0 ; i < nTailIndex - 1 ; i++)
                 {
-                    buffer[i] = buffer[i + 1];
+                    *(buffer + i) = *(buffer + i + 1);
                 }
                 nTailIndex--;
-                buffer[nTailIndex] = 0x00;
+                *(buffer + nTailIndex) = 0x00;
                 break;
             case 's':
                 for(int i = 0 ; i < nTailIndex ; i++)

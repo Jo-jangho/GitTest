@@ -24,11 +24,11 @@ int main(void)
                 buffer[nTailIndex] = data;
                 nTailIndex++;
                 break;
-            case 'd':   //delete
+            case 'd':   //last delete
                 nTailIndex--;
                 buffer[nTailIndex] = 0x00;
                 break;
-            case 'f':
+            case 'f':   //last delete
                 nHeadIndex++;
                 nTailIndex--;
                 break;
