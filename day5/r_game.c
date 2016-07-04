@@ -40,14 +40,14 @@ int main()
 			}
 			else if(ch == 'a') 
             {
-                if(car_posx > 0 && car_posy > 0)
+                if(screen_buffer[0] != 2)
                 {
 				    car_posx -= 1;
                 }
             }
 			else if(ch == 'd') 
             {
-                if(car_posx < 8 && car_posy < 8)
+                if(screen_buffer[63] != 2)
                 {
 				    car_posx += 1;
                 }
