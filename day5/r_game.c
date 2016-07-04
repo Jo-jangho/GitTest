@@ -69,7 +69,7 @@ int main()
 
 			//랜더링 
 			gotoxy(1,1);
-			int x,y;
+			int x, y;
 			for(y = 0 ; y < 8 ; y++)
 			{
 				for(x = 0 ; x < 8 ; x++) 
