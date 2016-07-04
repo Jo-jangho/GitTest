@@ -6,7 +6,6 @@ int main(void)
     char data;
     char buffer[64] = {0, };
     int bLoop = 1;
-    int nHeadIndex = 0;
     int nTailIndex = 0;
     
     while(bLoop)
@@ -29,8 +28,12 @@ int main(void)
                 buffer[nTailIndex] = 0x00;
                 break;
             case 'f':
-                nHeadIndex++;
+                for(int i = 0 ; i < nTailIndex - 1 ; i++)
+                {
+                    buffer[i] = buffer[i + 1];
+                }
                 nTailIndex--;
+                buffer[nTailIndex] = 0x00;
                 break;
             case 's':
                 for(int i = 0 ; i < nTailIndex ; i++)
