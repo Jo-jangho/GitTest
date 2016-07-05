@@ -32,7 +32,7 @@ int main(void)
                 for(int i = 0 ; i < nTailIndex - 1 ; i++)
                 {
                     *(buffer + i) = *(buffer + i + 1);
-                }
+                }                                          
                 nTailIndex--;
                 *(buffer + nTailIndex) = 0x00;
                 break;
