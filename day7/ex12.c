@@ -64,9 +64,14 @@ int main(void)
         {
             //remove 2 hello
             int nIdx = atoi(strtok(NULL, " "));
+            free(strLine[nIdx]);
+
             pTemp = strtok(NULL, " ");
 
+            pstr = (char *)malloc(strlen(pTemp) + 1);
+
             strcpy(strLine[nIdx], pTemp);
+            strLine[nIdx] = pstr;
         }
         else if(!strcmp(pTemp, "pop"))
         {
