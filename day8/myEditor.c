@@ -5,10 +5,13 @@
 
 int main(void)
 {
-    int bLoop = 1;
-    char* strLine[128] = {0,};
-    int nTailIndex = 0;
+    /**/
+    S_STRLINE* pHeader = NULL;
+    S_STRLINE* pTail = NULL;
 
+    int bLoop = 1;
+
+    puts("MyEditor veersion 1.0");
     while(bLoop)
     {
         char* pTemp;
@@ -24,12 +27,39 @@ int main(void)
         }
         else if(!strcmp(pTemp, "push"))
         {
+            /**/
             pTemp = strtok(NULL, " ");
-
             pstr = (char *)malloc(strlen(pTemp) + 1);
             strcpy(pstr, pTemp);
 
-            strLine[nTailIndex++] = pstr;
+            /**/
+            S_STRLINE* pLine = (S_STRLINE *)malloc(sizeof(S_STRLINE));
+            pLine->m_szStr = pstr;
+            pLine->m_pNext = NULL;
+
+            /**/
+            if(pHeader == NULL)
+            {
+                pHeader = pLine;
+                pTail = pLine;
+            }
+            else
+            {
+                S_STRLINE* pNext = (S_STRLINE *)pHeader;
+                while(pNext != NULL)
+                {
+                    if(pNext->m_pNext != NULL)
+                    {
+                        pNext = pNext->m_pNext;
+                    }
+                    else
+                    {
+                        pNext->m_pNext = pLine;
+                        pTail = pLine;
+                        pNext = NULL;
+                    }
+                }
+            }
         }
         else if(!strcmp(pTemp, "insert"))
         {
@@ -40,13 +70,23 @@ int main(void)
             pstr = (char *)malloc(strlen(pTemp) + 1);
             strcpy(pstr, pTemp);
 
-            for(int i = nTailIndex ; i > nIdx ; i--)
+            /**/
+            S_STRLINE* pLine = (S_STRLINE *)malloc(sizeof(S_STRLINE));
+            pLine->m_szStr = pstr;
+
+            /**/
+            S_STRLINE* pNext = pHeader;
+            int i = 1;
+            while( i < nIdx )
             {
-                strLine[i] = strLine[i - 1];
+                pNext = pNext->m_pNext;
+                i++;
             }
 
-            strLine[nIdx] = pstr;
-            nTailIndex++;
+            /**/
+            pLine->m_pNext = pNext->m_pNext;
+            pNext->m_pNext = pLine;
+
         }
         else if(!strcmp(pTemp, "rm"))
         {
@@ -54,16 +94,23 @@ int main(void)
             int nIdx = atoi(strtok(NULL, " "));
             pTemp = strtok(NULL, " ");
 
-            free(strLine[nIdx]);
-            for(int i = nIdx ; strLine[i] != 0x00 ; i++)
+            /**/
+            S_STRLINE* pLine = pHeader;
+            int i = 1;
+            while( i < nIdx )
             {
-                strLine[i] = strLine[i + 1];
+                pLine = pLine->m_pNext;
+                i++;
             }
-            strLine[nTailIndex--] = 0x00;
+
+            /**/
+            S_STRLINE* pDel = pLine->m_pNext;
+            pLine->m_pNext = pDel->m_pNext;
+            free(pDel);
         }
         else if(!strcmp(pTemp, "change"))
         {
-            //remove 2 hello
+            //change 2 hello
             int nIdx = atoi(strtok(NULL, " "));
             free(strLine[nIdx]);
 
@@ -73,28 +120,40 @@ int main(void)
 
             strcpy(strLine[nIdx], pTemp);
             strLine[nIdx] = pstr;
+
+
         }
         else if(!strcmp(pTemp, "pop"))
         {
-            free(strLine[nTailIndex]);
-            strLine[--nTailIndex] = 0x00;
+            S_STRLINE* pNext = (S_STRLINE *)pHeader;
+            S_STRLINE* pDel = (S_STRLINE *)pTail;
+            while(pNext->m_pNext != pDel)
+            {
+                pNext = pNext->m_pNext;
+            }
+            pTail = pNext;
+            pTail->m_pNext = NULL;
+
+            free(pDel->m_szStr);
+            free(pDel);
         }
         else if(!strcmp(pTemp, "delete"))
         {
-            free(strLine[0]);
-            for(int i = 0 ; strLine[i] != 0x00 ; i++)
-            {
-                strLine[i] = strLine[i + 1];
-            }
-            strLine[nTailIndex--] = 0x00;
+            S_STRLINE* pDel = pHeader;
+            pHeader = pHeader->m_pNext;
+
+            free(pDel->m_szStr);
+            free(pDel);
         }
         else if(!strcmp(pTemp, "dump"))
         {
+            S_STRLINE* pLine = (S_STRLINE *)pHeader;
             puts("====================================");
-            for(int i = 0 ; strLine[i] != 0x00 ; i++)
-            {
-                puts(strLine[i]);
-            }
+                while(pLine != NULL)
+                {
+                    printf("%s\n", pLine->m_szStr);
+                    pLine = pLine->m_pNext;
+                }
             puts("====================================");
         }
     }

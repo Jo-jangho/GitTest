@@ -1,4 +1,4 @@
-#ifnedf __MY_EDITOR_H__
+#ifndef __MY_EDITOR_H__
 #define __MY_EDITOR_H__
 
 /*
@@ -12,8 +12,8 @@ set index str
 
 typedef struct
 {
-    char* szStr;
-    void* pNext;
+    char* m_szStr;
+    void* m_pNext;
 }S_STRLINE;
 
 
