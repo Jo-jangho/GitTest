@@ -52,7 +52,7 @@ void rg_playGame(double delta_tick)
 	//게임로직 (판정)
 	if(rock_pos_y == car_posy && rock_pos_x == car_posx)
 	{
-		bLoop = 0;
+		//bLoop = 0;
 		system("clear");
 		gotoxy(1, 1);
 		setColor(RED, B_BLACK);
@@ -76,7 +76,7 @@ void rg_playGame(double delta_tick)
 	screen_buffer[ rock_pos_y * 8 + rock_pos_x] = 1;
 
 	acc_tick += delta_tick;
-	if(acc_tick > 0.1 || bLoop == 1) 
+	if(acc_tick > 0.1 || bLoop == 0) 
 	{
 		acc_tick = 0;
 		
