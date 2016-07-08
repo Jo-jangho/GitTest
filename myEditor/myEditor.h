@@ -10,6 +10,7 @@ ins index str
 set index str
 */
 
+/**/
 typedef struct
 {
     char* m_szStr;
