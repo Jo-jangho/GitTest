@@ -16,7 +16,6 @@ int main(void)
 
     char* pA = "success";
     char* pB = "failed";
-    char* pT;
 
     printf("pA : %s, pB : %s\n", pA, pB);
 
