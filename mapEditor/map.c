@@ -77,6 +77,18 @@ void map_drawTile(_S_MAP_OBJECT *pObj, int posX, int posY, _S_MAP_OBJECT *pTarge
     {
         for(int j = 0 ; j < pObj->m_header.m_nWidth ; j++)
         {
+            map_put(pTarget, j + posX, i + posY, 
+            pObj->m_pBuf[(i * pObj->m_header.m_nWidth) + j]);
+        }
+    }
+}
+
+void map_drawTile_trn(_S_MAP_OBJECT *pObj, int posX, int posY, _S_MAP_OBJECT *pTarget)
+{
+    for( int i = 0 ; i < pObj->m_header.m_nHeight ; i++)
+    {
+        for(int j = 0 ; j < pObj->m_header.m_nWidth ; j++)
+        {
             if(pObj->m_pBuf[(i * pObj->m_header.m_nWidth) + j] != 0)
             {
                 map_put(pTarget, j + posX, i + posY, 
