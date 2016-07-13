@@ -1,48 +1,14 @@
-#ifndef __ENGINE_2D__
-#define __ENGINE_2D__
-
+#include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <Windows.h>
-#include <stdio.h>
 #include <time.h>
 #include <sys/time.h>
 #include <unistd.h>
 #include <sys/select.h>
 #include <termios.h>
 
-/* 글자 속성 */
-#define RESET 0
-#define BRIGHT 1
-#define DIM 2
-#define UNDERSCORE 4
-#define BLINK 5
-#define REVERSE 7
-#define HIDDNE 8
-
-/* 글자색 */
-#define BLACK 30
-#define RED 31
-#define GREEN 32
-#define YELLOW 33
-#define BLUE 34
-#define MAGENTA 35
-#define CYAN 36
-#define WHITE 37
-
-/* 배경색 */
-#define B_BLACK 40
-#define B_RED 41
-#define B_GREEN 42
-#define B_YELLOW 43
-#define B_BLUE 44
-#define B_MAGENTA 45
-#define B_CYAN 46
-#define B_WHITE 47
-
-/**/
-char tilePalette[] = {'.', '@', 'A'};
-char *pMapBuf;
+#include "engine2d.h"
 
 /* 글자 색 바꾸기 */
 void setColor(int fore_color, int backg_color)
@@ -151,18 +117,6 @@ void map_drawAll(int *pMap)
     }
 }
 
-void putTile(int sy, int ey, int sx, int ex, int width, char *ptrBuf)
-{
-    for(int i = sy ; i < ey ; i++)
-    {
-        for(int j = sx ; j < ex ; j++)
-        {
-            putchar(tilePalette[ptrBuf[(i * width) + j]]);
-        }
-        printf("\r\n");
-    }
-}
-
 void readMap()
 {
     int width,height;
@@ -235,6 +189,3 @@ void set_conio_terminal_mode()
 	cfmakeraw(&new_termios);
 	tcsetattr(0, TCSANOW, &new_termios);
 }
-
-
-#endif
