@@ -1,12 +1,27 @@
-#include "temp_1.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <Windows.h>
+#include <time.h>
+#include <sys/time.h>
+#include <unistd.h>
+#include <sys/select.h>
+#include <termios.h>
+#include <math.h>
+
+#include "../engine2d/engine2d.h"
+#include "../mapEditor/map.h"
 #include "bullet.h"
+#include "temp_1.h"
 
 int main(void)
 {
+    /**/
 	set_conio_terminal_mode();
 	acc_tick=last_tick=0;
     system("clear");
 
+    /**/
     map_init(&gMap);
     map_new(&gMap, WIDTH, HEIGHT);
 
@@ -24,9 +39,10 @@ int main(void)
     int nSize = sizeof(gBullets) / sizeof(_S_BULLET_OBJECT);
     for(int i = 0 ; i < nSize ; i++)
     {
-        bullet_init(&gBullets[i], gPlayerPlane.m_nPosX, gPlayerPlane.m_nPosY, 0, &gMissile);
+        bullet_init(&gBullets[i], 0, 0, 0, &gMissile);
     }
     
+    /**/
 	while(bLoop) 
     {
 		//타이밍처리 
@@ -43,22 +59,24 @@ int main(void)
             {
                 bLoop = 0;
             }
-            else if(ch == 'p')
+            else if(ch == 'j')
             {
-                for(int i = 0 ; i < nSize ; i++)
+                bStep = 1;
+            }
+            gPlayerPlane.fpApply(&gPlayerPlane, delta_tick, ch);
+        }
+
+        if(bStep == 1)
+        {
+            for(int i = 0 ; i < nSize ; i++)
+            {
+                _S_BULLET_OBJECT *pObj = &gBullets[i];
+                if(pObj->m_nFSM == 0)
                 {
-                    _S_BULLET_OBJECT *pObj = &gBullets[i];
-                    if(pObj->m_nFSM == 0)
-                    {
-                        pObj->m_nFSM = 1;
-                        pObj->m_fPosX = (double)gPlayerPlane.m_nPosX;
-                        pObj->m_fPosY = (double)gPlayerPlane.m_nPosY;
-                        pObj->m_fSpeed = 3.0;
-                        break;
-                    }
+                    bullet_vector(pObj, 0, 0, gPlayerPlane.m_nPosX, gPlayerPlane.m_nPosY); 
+                    pObj->m_nFSM = 1;
                 }
             }
-            Plane_Apply(&gPlayerPlane, delta_tick, ch);
         }
 
         for(int i = 0 ; i < nSize ; i++)
@@ -75,7 +93,7 @@ int main(void)
         if(acc_tick > 0.1)
         {
             map_drawTile(&gMap, 0, 0, &gScreenBuffer);
-            Plane_Draw(&gPlayerPlane, &gScreenBuffer);
+            gPlayerPlane.fpDraw(&gPlayerPlane, &gScreenBuffer);
             for(int i = 0 ; i < nSize ; i++)
             {
                 _S_BULLET_OBJECT *pObj = &gBullets[i];
@@ -90,7 +108,7 @@ int main(void)
             printf("-----------------------------------\r\n");
 
             puts("move : w, a, s, d\r");
-            puts("fire : p\r");
+            puts("fire : j\r");
             puts("quit : q\r");
             
             acc_tick = 0;

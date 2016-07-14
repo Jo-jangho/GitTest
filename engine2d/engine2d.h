@@ -1,15 +1,7 @@
 #ifndef __ENGINE_2D__
 #define __ENGINE_2D__
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <Windows.h>
-#include <time.h>
-#include <sys/time.h>
-#include <unistd.h>
-#include <sys/select.h>
-#include <termios.h>
+
 
 /* 글자 속성 */
 #define RESET 0

@@ -9,11 +9,35 @@ typedef struct
 	int m_nHeight;
 }_S_MAP_HEADER;
 
-typedef struct
+typedef struct _S_MAP_OBJECT
 {
 	_S_MAP_HEADER m_header;
 	char *m_pBuf;
+
+    int (*fpLoad)(struct _S_MAP_OBJECT *, char *);
+    int (*fpSave)(struct _S_MAP_OBJECT *, char *);
+    void (*fpDump)(struct _S_MAP_OBJECT *);
+    void (*fpNew)(struct _S_MAP_OBJECT *, int , int );
+    void (*fpPut)(struct _S_MAP_OBJECT *, int , int , int );
+    void (*fpHline)(struct _S_MAP_OBJECT *, int , int );
+    void (*fpVline)(struct _S_MAP_OBJECT *, int , int );
+    void (*fpDrawTile)(struct _S_MAP_OBJECT *, int , int , struct _S_MAP_OBJECT *);
+    void (*fpDrawTile_trn)(struct _S_MAP_OBJECT *, int , int , struct _S_MAP_OBJECT *);
+    void (*fpDrawTile_MirrorV)(struct _S_MAP_OBJECT *, int , int , struct _S_MAP_OBJECT *);
+    void (*fpDrawTile_MirrorH)(struct _S_MAP_OBJECT *, int , int , struct _S_MAP_OBJECT *);
 }_S_MAP_OBJECT;
+
+void map_dump(_S_MAP_OBJECT *pObj);
+void map_new(_S_MAP_OBJECT *pObj, int nWidth, int nHeight);
+void map_put(_S_MAP_OBJECT *pObj, int x, int y, int tile_index);
+void map_hline(_S_MAP_OBJECT *pObj, int x, int tile_index);
+void map_vline(_S_MAP_OBJECT *pObj, int y, int tile_index);
+void map_drawTile(_S_MAP_OBJECT *pObj, int posX, int posY, _S_MAP_OBJECT *pTarget);
+void map_drawTile_trn(_S_MAP_OBJECT *pObj, int posX, int posY, _S_MAP_OBJECT *pTarget);
+void map_drawTile_mirrorV(_S_MAP_OBJECT *pObj, int posX, int posY, _S_MAP_OBJECT *pTarget);
+void map_drawTile_mirrorH(_S_MAP_OBJECT *pObj, int posX, int posY, _S_MAP_OBJECT *pTarget);
+int map_save(_S_MAP_OBJECT *pObj, char *filename);
+int map_load(_S_MAP_OBJECT *pObj, char *filename);
 
 /**/
 char tilePalette[] = {'.', '#', '@', '/', 92, 
@@ -23,6 +47,18 @@ char tilePalette[] = {'.', '#', '@', '/', 92,
 void map_init(_S_MAP_OBJECT *pObj)
 {
     pObj->m_pBuf = NULL;
+
+    pObj->fpLoad = map_load;
+    pObj->fpSave = map_save;
+    pObj->fpDump = map_dump;
+    pObj->fpNew = map_new;
+    pObj->fpPut = map_put;
+    pObj->fpHline = map_hline;
+    pObj->fpVline = map_vline;
+    pObj->fpDrawTile = map_drawTile;
+    pObj->fpDrawTile_trn = map_drawTile_trn;
+    pObj->fpDrawTile_MirrorV = map_drawTile_mirrorV;
+    pObj->fpDrawTile_MirrorH = map_drawTile_mirrorH;
 }
 
 void map_dump(_S_MAP_OBJECT *pObj)
