@@ -61,22 +61,23 @@ int main(void)
             }
             else if(ch == 'j')
             {
-                bStep = 1;
-            }
-            gPlayerPlane.fpApply(&gPlayerPlane, delta_tick, ch);
-        }
-
-        if(bStep == 1)
-        {
-            for(int i = 0 ; i < nSize ; i++)
-            {
-                _S_BULLET_OBJECT *pObj = &gBullets[i];
-                if(pObj->m_nFSM == 0)
+                for(int i = 0 ; i < nSize ; i++)
                 {
-                    bullet_vector(pObj, 0, 0, gPlayerPlane.m_nPosX, gPlayerPlane.m_nPosY); 
-                    pObj->m_nFSM = 1;
+                    _S_BULLET_OBJECT *pObj = &gBullets[i];
+                    if(pObj->m_nFSM == 0)
+                    {
+                        bullet_vector(pObj, 0, 0, gPlayerPlane.m_nPosX, gPlayerPlane.m_nPosY); 
+                    }
+                    else
+                    {
+                        if(pObj->m_faccLifeTime < 7.0)
+                        {
+                            bullet_vector(pObj, pObj->fPosX, pObj->fPosY, gPlayerPlane.m_nPosX, gPlayerPlane.m_nPosY); 
+                        }
+                    }
                 }
             }
+            gPlayerPlane.fpApply(&gPlayerPlane, delta_tick, ch);
         }
 
         for(int i = 0 ; i < nSize ; i++)

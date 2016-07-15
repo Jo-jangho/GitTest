@@ -17,7 +17,6 @@ typedef struct _S_Plane
 struct timespec work_timer;
 double acc_tick, last_tick;
 int bLoop = 1;
-int bStep = 0;
 
 int mis_posX;
 int mis_posY;

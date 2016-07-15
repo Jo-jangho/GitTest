@@ -2,32 +2,22 @@
 #include <stdlib.h>
 #include <string.h>
 
-typedef struct
-{
-    char* m_szName;
-    void* node[8];
-}S_AREA;
+#include "area.h"
 
 int main(void)
 {
-    S_AREA town = {
-        "town",
-        NULL, NULL, NULL, 
-        NULL,       NULL, 
-        NULL, NULL, NULL
-    };
+    _S_AREA town, basic_dungeon;
 
-    S_AREA dungeon_1 = {
-        "dungeon - 1",
-        NULL, NULL, NULL, 
-        NULL,       NULL, 
-        NULL, NULL, NULL
-    };
+    area_init(&town);
+    town.m_szName = "town";
 
-    town.node[0] = &dungeon_1;
-    dungeon_1.node[0] = &town;
+    area_init(&basic_dungeon);
+    basic_dungeon.m_szName = "basic_dungeon";
 
-    S_AREA* pCurrentArea = &town;
+    town.node[0] = &basic_dungeon;
+    basic_dungeon.node[0] = &town;
+
+    _S_AREA* pCurrentArea = &town;
 
     int bLoop = 1;
     while(bLoop)
@@ -38,7 +28,7 @@ int main(void)
 
         if(!strcmp(pTemp, "look"))
         {
-            printf("당신은 %s에 서 있습니다.\n", pCurrentArea->m_szName);
+            pCurrentArea->pfDraw(pCurrentArea);
         }
         else if(!strcmp(pTemp, "exit"))
         {
@@ -47,21 +37,17 @@ int main(void)
         else if(!strcmp(pTemp, "move"))
         {
             char* pszArea = strtok(NULL, " ");
-            printf("당신은 %s으로 이동합니다.\n", pszArea);
 
-            for(int i = 0 ; i < 8 ; i++)
+            _S_AREA *pTemp = pCurrentArea->pfFind(pCurrentArea, pszArea);
+            if(pTemp)
             {
-                S_AREA* pNode = pCurrentArea->node[i];
-                
-                if(pNode == NULL) break;
-
-                if(!strcmp(pNode->m_szName, pszArea))
-                {
-                    puts("이동 성공");
-                    pCurrentArea = pNode;
-                }
-            }
-            
+                printf("당신은 %s으로 이동합니다.\n", pszArea);    
+                pCurrentArea = pTemp;            
+            }   
+            else
+            {
+                puts("Cannot move");
+            }         
         }
     }
 
