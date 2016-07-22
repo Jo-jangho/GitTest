@@ -5,7 +5,10 @@ gcc game.c   // Compile
 ./a.exe      // play
 
 ##Survive from the alien attack!
-### w : up, a : left, s : down, d : right
+### w : up
+### a : left
+### s : down
+### d : right
 
 ### 1. 타이틀 화면
 
