@@ -1,16 +1,18 @@
 #ifndef __GAME_H__
 #define __GAME_H__
 
+/* var */
 int nSize = sizeof(gBullets) / sizeof(_S_BULLET_OBJECT);
 
+/* game init */
 void game_init()
 {
-    /**/
+    /* timer init */
     set_conio_terminal_mode();
     acc_tick = last_tick=0;
     system("clear");
 
-    /* 게임 리소스 로딩 */
+    // game resourse roading 
     map_init(&gMap);
     map_new(&gMap, WIDTH, HEIGHT);
 
@@ -26,13 +28,16 @@ void game_init()
     map_init(&gAlienModel);
     map_load(&gAlienModel,"alien.dat");
 
+    // player init
     Plane_init(&gPlayerPlane, &gPlayer, WIDTH / 2, HEIGHT / 2);
 
+    // bullet init
     for(int i = 0 ; i < nSize ; i++)
     {
         bullet_init(&gBullets[i], 0, 0, 0, &gMissile);
     }
 
+    // alien init
     double TablePositionX[] = {1, 32, 32, 1};
     double TablePositionY[] = {1, 1, 14, 14};
     for(int i = 0 ; i < 4 ; i++)
@@ -47,26 +52,29 @@ void game_init()
     }
 }
 
+/* game playing */
 void game_paly(double delta_tick)
 {
+    //  key input
     if(kbhit() != 0)
     {
         char ch = getch();
-        if(ch == 'q')
+        if(ch == 'q')   //  quit
         {
             bLoop = 0;
         }
+        //  player move(key input)
         Plane_Apply(&gPlayerPlane, delta_tick, ch);
     }
 
-    //에일리언 Apply
+    //	alien Apply
     for(int i = 0 ; i < 4 ; i++) 
     {
         _S_ALIEN_OBJECT *pObj = &gAlienObjects[i];
         pObj->pfApply(pObj, delta_tick);
     }
         
-    //미사일 Apply
+    //	missile Apply
     for(int i = 0 ; i < nSize ; i++)
     {
         _S_BULLET_OBJECT *pObj = &gBullets[i];
@@ -76,7 +84,7 @@ void game_paly(double delta_tick)
         }
     }
 
-    //충돌처리
+    //	collied
     for(int i = 0 ; i < 10 ; i++) 
     {
         if(gBullets[i].m_nFSM != 0) 
@@ -108,6 +116,7 @@ void game_paly(double delta_tick)
         }
     }
 
+    //  game score
     score_acc_tick += delta_tick;
     if(score_acc_tick > 1.0)
     {
@@ -115,7 +124,7 @@ void game_paly(double delta_tick)
         score_acc_tick = 0;
     }
 
-    //타이밍 계산
+    //	buffer draw
     acc_tick += delta_tick;
     if(acc_tick > 0.1)
     {

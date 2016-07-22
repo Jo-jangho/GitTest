@@ -8,8 +8,8 @@
 #include <termios.h>
 #include <math.h>
 
-#include "../engine2d/engine2d.h"
-#include "../mapEditor/map.h"
+#include "engine2d.h"
+#include "map.h"
 #include "bullet.h"
 #include "alien.h"
 #include "temp_1.h"
@@ -19,13 +19,13 @@ int main(void)
 {    
 	while(bLoop) 
     {
-		//타이밍처리 
+		// timer init
 		clock_gettime(CLOCK_MONOTONIC,&work_timer);
 		double cur_tick = work_timer.tv_sec + (double)(work_timer.tv_nsec * 1e-9);
 		double delta_tick = cur_tick - last_tick;
 		last_tick = cur_tick;
 
-        if(nFSM == 0) //타이틀 메뉴 상태 
+        if(nFSM == 0) // title menu
 		{ 
 			switch(nStep)
             {
@@ -48,7 +48,7 @@ int main(void)
                     break;
             }
 		}
-		else if(nFSM ==1 ) //게임상태... 
+		else if(nFSM ==1 ) // game playing
 		{
 			game_paly(delta_tick);
         }

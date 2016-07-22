@@ -1,6 +1,7 @@
 #ifndef _ALIEN_H_
 #define _ALIEN_H_
 
+/* struct */
 typedef struct _S_ALIEN_OBJECT 
 {
 
@@ -23,15 +24,19 @@ typedef struct _S_ALIEN_OBJECT
 
 } _S_ALIEN_OBJECT;
 
+/* function */
 void alien_init(_S_ALIEN_OBJECT *pObj,_S_MAP_OBJECT *pBody);
 static void Draw(_S_ALIEN_OBJECT *pObj, _S_MAP_OBJECT *pBuff);
 static void Apply(_S_ALIEN_OBJECT *pObj,double deltaTick);
 
+/* alien init */
 static void Apply(_S_ALIEN_OBJECT *pObj,double deltaTick)
 {
+	/* var */
 	double speed = 5.0;
 	double lifetime = 3;
 
+	/* run */
 	switch(pObj->m_nFSM) 
     {
 		case 0: //die
@@ -124,6 +129,8 @@ static void Apply(_S_ALIEN_OBJECT *pObj,double deltaTick)
 			break;
 	}
 }
+
+/* alien draw */
 static void Draw(_S_ALIEN_OBJECT *pObj, _S_MAP_OBJECT *pBuff)
 {
 	switch(pObj->m_nFSM) 
@@ -139,6 +146,7 @@ static void Draw(_S_ALIEN_OBJECT *pObj, _S_MAP_OBJECT *pBuff)
 	}
 }
 
+/* alien init */
 void alien_init(_S_ALIEN_OBJECT *pObj, _S_MAP_OBJECT *pBody)
 {
 	pObj->m_nFSM = 0;

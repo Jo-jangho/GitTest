@@ -1,6 +1,7 @@
 #ifndef __BULLET_H__
 #define __BULLET_H__
 
+/* struct */
 typedef struct _S_BULLET_OBJECT
 {
 	int m_nFSM;
@@ -27,13 +28,13 @@ typedef struct _S_BULLET_OBJECT
 }_S_BULLET_OBJECT;
 
 
-/**/
+/* function */
 void bullet_apply(_S_BULLET_OBJECT *pObj, double deltaTick);
 void bullet_draw(_S_BULLET_OBJECT *pObj, _S_MAP_OBJECT *pMapBuf);
 void bullet_fire(_S_BULLET_OBJECT *pObj, int x, int y, double speed, double vx, double vy, double lifeLimit);
 void bullet_vector(_S_BULLET_OBJECT *pObj, double startX, double startY, double endX, double endY);
 
-/**/
+/* bullet init */
 void bullet_init(_S_BULLET_OBJECT *pObj, double x, double y, double speed, _S_MAP_OBJECT *pBody)
 {
     pObj->m_nFSM = 0;   //  0 : sleep,  1 : active
@@ -50,6 +51,7 @@ void bullet_init(_S_BULLET_OBJECT *pObj, double x, double y, double speed, _S_MA
     pObj->pfVector = bullet_vector;
 }
 
+/* bullet apply */
 void bullet_apply(_S_BULLET_OBJECT *pObj, double deltaTick)
 {
 	switch(pObj->m_nFSM) 
@@ -77,7 +79,7 @@ void bullet_apply(_S_BULLET_OBJECT *pObj, double deltaTick)
 	}
 }
 
-
+/* bullet draw */
 void bullet_draw(_S_BULLET_OBJECT *pObj, _S_MAP_OBJECT *pMapBuf)
 {
     switch(pObj->m_nFSM) 
@@ -93,6 +95,7 @@ void bullet_draw(_S_BULLET_OBJECT *pObj, _S_MAP_OBJECT *pMapBuf)
 	}
 }
 
+/* bullet fire */
 void bullet_fire(_S_BULLET_OBJECT *pObj, int x, int y, double speed, double vx, double vy, double lifeLimit)
 {
 	pObj->m_nFSM = 1;
@@ -105,6 +108,7 @@ void bullet_fire(_S_BULLET_OBJECT *pObj, int x, int y, double speed, double vx, 
 	pObj->m_fLifeLimit = lifeLimit;
 }
 
+/* bullet vector*/
 void bullet_vector(_S_BULLET_OBJECT *pObj, double startX, double startY, double endX, double endY)
 {
     double mx = startX;
