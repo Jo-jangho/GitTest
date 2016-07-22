@@ -1,3 +1,3 @@
 # 1. Invader Game
 
-[test](https://github.com/Jo-jangho/GitTest/tree/master/invader)
+### [게임 링크](https://github.com/Jo-jangho/GitTest/tree/master/invader)
