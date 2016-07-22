@@ -1,8 +1,8 @@
 #Invader Game!!!
 
-gcc game.c  // 컴파일
+gcc game.c   // Compile
 
-./a.exe     // 실행
+./a.exe      // play
 
 ##Survive from the alien attack!
 
