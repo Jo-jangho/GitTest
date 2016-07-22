@@ -1,7 +1,6 @@
 #ifndef __GAME_H__
 #define __GAME_H__
 
-
 int nSize = sizeof(gBullets) / sizeof(_S_BULLET_OBJECT);
 
 void game_init()
@@ -45,7 +44,6 @@ void game_init()
         pObj->m_nFSM = 1;
         pObj->m_nStep = i + 2;
         pObj->m_pBullet = &gBullets[i];
-        
     }
 }
 

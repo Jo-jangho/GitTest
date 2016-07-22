@@ -31,9 +31,7 @@ int main(void)
             {
                 case 0:
                     game_init();
-                    //setColor(YELLOW, B_MAGENTA);
                     puts("========================press to start========================");
-                    setColor(RESET, RESET);
                     nStep = 1;
                     break;
                 case 1:
