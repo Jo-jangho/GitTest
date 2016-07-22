@@ -1,44 +1,34 @@
-#ifndef __TEMP_1_H__
-#define __TEMP_1_H__
+#ifndef __RUNGAME_H__
+#define __RUNGAME_H__
 
-#include "../engine2d/engine2d.h"
-#include "../mapEditor/map.h"
-#include "bullet.h"
-
-#define WIDTH 35
-#define HEIGHT 16
-
-typedef struct
-{
-    int m_nPosX;
-    int m_nPosY;
-    _S_MAP_OBJECT *m_pBody;
-}_S_Plane;
+#define WIDTH 32
+#define HEIGHT 8
 
 struct timespec work_timer;
-double acc_tick, last_tick;
+double acc_tick,last_tick;
 int bLoop = 1;
 
-int mis_posX;
-int mis_posY;
+typedef struct _S_Player
+{
+	int m_nPosX;
+	int m_nPosY;
+	_S_MAP_OBJECT *m_pBody;
+}_S_Player;
 
-//  게임 오브젝트 선언
-_S_MAP_OBJECT gMap;
-_S_MAP_OBJECT gScreenBuffer;
+_S_MAP_OBJECT gMap[3];
+_S_MAP_OBJECT gScreenBuffer[2];
 _S_MAP_OBJECT gPlayer;
-_S_MAP_OBJECT gMissile;
 
-_S_Plane gPlayerPlane;
-_S_BULLET_OBJECT gBullets[32];
+_S_Player gPlayerObject;
 
-void Plane_init(_S_Plane *pObj, _S_MAP_OBJECT *pBody, int x, int y)
+void Player_init(_S_Player *pObj, _S_MAP_OBJECT *pBody, int x, int y)
 {
     pObj->m_pBody = pBody;
     pObj->m_nPosX = x;
     pObj->m_nPosY = y;
 }
 
-void Plane_Apply(_S_Plane *pObj, double deltaTick, char key_input)
+void Player_Apply(_S_Player *pObj, double deltaTick, char key_input)
 {  
     switch(key_input)
     {
@@ -69,10 +59,21 @@ void Plane_Apply(_S_Plane *pObj, double deltaTick, char key_input)
     }
 }
 
-void Plane_Draw(_S_Plane *pObj, _S_MAP_OBJECT *pBuff)
+void Player_Draw(_S_Player *pObj, _S_MAP_OBJECT *pBuff)
 {
     map_drawTile_trn(pObj->m_pBody, pObj->m_nPosX, pObj->m_nPosY, pBuff);
 }
 
+void putTile(_S_MAP_OBJECT *pObj, int sy, int ey, int sx, int ex)
+{
+    for(int i = sy ; i < ey ; i++)
+    {
+        for(int j = sx ; j < ex ; j++)
+        {
+            putchar(pObj->m_pBuf[i * pObj->m_header.m_nWidth + j]);
+        }
+        printf("\r\n");
+    }
+}
 
 #endif

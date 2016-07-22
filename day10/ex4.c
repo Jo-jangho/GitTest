@@ -31,7 +31,7 @@ void readMap()
 {
     int width,height;
 	FILE *pf;
-	pf = fopen("./map.txt","r");
+	pf = fopen("map.txt","r");
 	
 	char buf[256];
 

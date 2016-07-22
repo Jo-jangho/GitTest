@@ -92,7 +92,6 @@ void map_new(_S_MAP_OBJECT *pObj, int nWidth, int nHeight)
 
 void map_put(_S_MAP_OBJECT *pObj, int x, int y, int tile_index)
 {
-
     pObj->m_pBuf[ (y * pObj->m_header.m_nWidth) + x ] = tile_index;
 }
 
